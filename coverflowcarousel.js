@@ -160,6 +160,30 @@ CoverflowCarousel.prototype.removePanel = function (indexOrPanel) {
  */
 CoverflowCarousel.prototype.orientate = function () {
     // TODO.
+    var sumFn = function (i) {
+        var sum = 0;
+        while (i > 0) {
+            sum += Math.cos(i * Math.PI / 2 / (i + 0.5));
+            i--;
+        }
+        return sum;
+    };
+    var panelsLength = this.panels.length,
+        panelWidth = this.panelWidth;
+    for (var i = 0; i < panelsLength; i++) {
+        var pStyle = this.panels[i].style;
+        var relativePanelIndex = (i - this.currentIndex) % panelsLength;
+        if (relativePanelIndex > panelsLength / 2) {
+            relativePanelIndex -= panelsLength;
+        }
+        var rotateYAsDeg = -90 * relativePanelIndex / (Math.abs(relativePanelIndex) + 1),
+            rotateYAsRad = rotateYAsDeg * Math.PI / 180;
+        var translateX = 0.75 * panelWidth * sumFn(Math.abs(relativePanelIndex)) * Math.sign(relativePanelIndex);
+        var translateZ = -0.5 * panelWidth * Math.sin(rotateYAsRad) * Math.sign(rotateYAsRad);
+
+        pStyle.msTransform = pStyle.webkitTransform = pStyle.MozTransform = pStyle.OTransform = pStyle.transform =
+            'translateX(' + translateX + 'px)' + 'translateZ(' + translateZ + 'px)' + 'rotateY(' + rotateYAsDeg + 'deg)';
+    }
 };
 
 /**
