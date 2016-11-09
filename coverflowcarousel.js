@@ -1,7 +1,7 @@
 /**
  * @fileoverview Operates on HTML elements to display a 3D coverflow carousel.
  * @author Harry Wong (RedAndBlueEraser)
- * @version 20161109
+ * @version 20161110
  */
 
 'use strict';
@@ -155,36 +155,42 @@ CoverflowCarousel.prototype.removePanel = function (indexOrPanel) {
     }
 };
 
-/**
- * Orientates and transforms the carousel.
- */
-CoverflowCarousel.prototype.orientate = function () {
-    // TODO.
-    var sumFn = function (i) {
-        var sum = 0;
-        while (i > 0) {
-            sum += Math.cos(i * Math.PI / 2 / (i + 0.5));
-            i--;
-        }
-        return sum;
-    };
-    var panelsLength = this.panels.length,
-        panelWidth = this.panelWidth;
-    for (var i = 0; i < panelsLength; i++) {
-        var pStyle = this.panels[i].style;
-        var relativePanelIndex = (i - this.currentIndex) % panelsLength;
-        if (relativePanelIndex > panelsLength / 2) {
-            relativePanelIndex -= panelsLength;
-        }
-        var rotateYAsDeg = -90 * relativePanelIndex / (Math.abs(relativePanelIndex) + 1),
-            rotateYAsRad = rotateYAsDeg * Math.PI / 180;
-        var translateX = 0.75 * panelWidth * sumFn(Math.abs(relativePanelIndex)) * Math.sign(relativePanelIndex);
-        var translateZ = -0.5 * panelWidth * Math.sin(rotateYAsRad) * Math.sign(rotateYAsRad);
+(function () {
+    var ALPHA = 90, BETA = 1, GAMMA = 0.5, DELTA = 1, ZETA = 0.5,
+        PAPWF = [0],
+        gPAPWF = function (i) {
+            if (i >= PAPWF.length) {
+                PAPWF[i] = gPAPWF(i - 1) + Math.cos(i * Math.PI / 2 / (i + DELTA));
+            }
+            return PAPWF[i];
+        },
+        getPanelsAccumulatedProjectedWidthFactor = function (i) {
+            return gPAPWF(Math.abs(i));
+        };
 
-        pStyle.msTransform = pStyle.webkitTransform = pStyle.MozTransform = pStyle.OTransform = pStyle.transform =
-            'translateX(' + translateX + 'px)' + 'translateZ(' + translateZ + 'px)' + 'rotateY(' + rotateYAsDeg + 'deg)';
-    }
-};
+    /**
+     * Orientates and transforms the carousel.
+     */
+    CoverflowCarousel.prototype.orientate = function () {
+        var panelsLength = this.panels.length,
+            panelWidth = this.panelWidth;
+        for (var i = 0; i < panelsLength; i++) {
+            var pStyle = this.panels[i].style;
+            var relativePanelIndex = i - this.currentIndex;
+            var relativePanelIndex = (relativePanelIndex % panelsLength + panelsLength) % panelsLength;
+            if (relativePanelIndex > panelsLength / 2) {
+                relativePanelIndex -= panelsLength;
+            }
+            var rotateYInDeg = -ALPHA * relativePanelIndex / (Math.abs(relativePanelIndex) + BETA),
+                rotateYInRad = rotateYInDeg * Math.PI / 180;
+            var translateX = GAMMA * panelWidth * Math.sign(relativePanelIndex) * getPanelsAccumulatedProjectedWidthFactor(relativePanelIndex);
+            var translateZ = -ZETA * panelWidth * Math.sign(rotateYInRad) * Math.sin(rotateYInRad);
+
+            pStyle.msTransform = pStyle.webkitTransform = pStyle.MozTransform = pStyle.OTransform = pStyle.transform =
+                'translateX(' + translateX + 'px)' + 'translateZ(' + translateZ + 'px)' + 'rotateY(' + rotateYInDeg + 'deg)';
+        }
+    };
+})();
 
 /**
  * Scrolls the carousel to show the next panel.
