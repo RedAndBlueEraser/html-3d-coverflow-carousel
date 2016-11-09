@@ -1,0 +1,42 @@
+/*
+ * coverflowcarousel.css
+ * Version 20161109
+ * Written by Harry Wong (RedAndBlueEraser)
+ */
+
+.coverflow-carousel {
+    overflow: hidden;  /* Prevent scrollbars from appearing. */
+
+    /* Set the perspective from where the carousel is viewed. */
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    perspective: 1000px;
+
+    text-align: center;  /* Centre the panels containers. */
+}
+
+.coverflow-carousel > .panels-container {
+    display: inline-block;  /* Wrap the panels. */
+
+    position: relative;  /* Position the panels. */
+
+    /* Preserve the panels' 3D transformations. */
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+/* Position the panel. */
+.coverflow-carousel > .panels-container > .panel:not(:first-child) {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+/* Smooth transitions. */
+.coverflow-carousel > .panels-container > .panel {
+    -webkit-transition: 1000ms;
+    -moz-transition: 1000ms;
+    -o-transition: 1000ms;
+    transition: 1000ms;
+}

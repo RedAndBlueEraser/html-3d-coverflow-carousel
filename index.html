@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HTML 3D Coverflow Carousel</title>
+    <meta name="author" content="">
+    <link rel="stylesheet" href="coverflowcarousel.css">
+    <script src="coverflowcarousel.js"></script>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; }
+      .panel { width: 512px; }
+
+      .buttons-container {
+        background: rgba(100, 100, 100, 0.5);
+        border-radius: 20px;
+        display: inline-block;
+        padding: 10px;
+      }
+      .button {
+        background: #6666BB;
+        border-radius: 10px;
+        color: #FFFFFF;
+        display: inline-block;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        height: 20px;
+        line-height: 20px;
+        text-decoration: none;
+        width: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="carousel" class="coverflow-carousel">
+      <div class="panels-container">
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Piano.jpg" alt="Piano">
+          <h1>Piano</h1><p>Piano</p>
+        </div>
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Autobahn.jpg" alt="Autobahn">
+          <h1>Autobahn</h1><p>Autobahn</p>
+        </div>
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Bridge.jpg" alt="Bridge">
+          <h1>Bridge</h1><p>Bridge</p>
+        </div>
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Night.jpg" alt="Night">
+          <h1>Night</h1><p>Night</p>
+        </div>
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Rail.jpg" alt="Rail">
+          <h1>Rail</h1><p>Rail</p>
+        </div>
+        <div class="panel">
+          <img src="https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/River.jpg" alt="River">
+          <h1>River</h1><p>River</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <div class="buttons-container">
+        <a id="previous" class="button" href="#" title="Previous">&lt;</a>
+        <div id="numbers" style="display: inline-block;"></div>
+        <a id="next" class="button" href="#" title="Next">&gt;</a>
+        <a id="add" class="button" href="#" title="Add">+</a>
+        <a id="remove" class="button" href="#" title="Remove">-</a>
+      </div>
+    </div>
+    <script>
+    var coverflowCarousel = new CoverflowCarousel(document.getElementById('carousel'));
+    coverflowCarousel.panelTemplate = document.createElement('div');
+    coverflowCarousel.panelTemplate.className = 'panel';
+    coverflowCarousel.panelTemplate.appendChild(document.createElement('img'));
+    coverflowCarousel.panelTemplate.appendChild(document.createElement('h1'));
+    coverflowCarousel.panelTemplate.appendChild(document.createElement('p'));
+
+    document.getElementById('previous').addEventListener('click', function (event) {
+        coverflowCarousel.scrollToPrevious();
+        event.preventDefault();
+    });
+    document.getElementById('next').addEventListener('click', function (event) {
+        coverflowCarousel.scrollToNext();
+        event.preventDefault();
+    });
+    document.getElementById('add').addEventListener('click', function (event) {
+        var imgSrcs = [
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Autobahn.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Bridge.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/City.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Cloud.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Fighter Jet.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Monorail.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Mountains.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Night.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Paddy Field.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Piano.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Power Station.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Rail.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/River.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Sports Car.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Supercomputer.jpg',
+                'https://dl.dropboxusercontent.com/u/73445707/Sample%20Photos/Small/Train.jpg'
+            ],
+            imgAlts = [
+                'Autobahn', 'Bridge', 'City', 'Cloud', 'Fighter Jet',
+                'Monorail', 'Mountains', 'Night', 'Paddy Field', 'Piano',
+                'Power Station', 'Rail', 'River', 'Sports Car',
+                'Supercomputer', 'Train'
+            ],
+            panel = coverflowCarousel.panelTemplate.cloneNode(true),
+            imgI = Math.floor(Math.random() * imgSrcs.length);
+        panel.getElementsByTagName('img')[0].alt = imgAlts[imgI];
+        panel.getElementsByTagName('img')[0].src = imgSrcs[imgI];
+        panel.getElementsByTagName('h1')[0].appendChild(document.createTextNode(imgAlts[imgI]));
+        panel.getElementsByTagName('p')[0].appendChild(document.createTextNode(imgAlts[imgI]));
+        coverflowCarousel.addPanel(panel);
+        event.preventDefault();
+    });
+    document.getElementById('remove').addEventListener('click', function (event) {
+        coverflowCarousel.removePanel();
+        event.preventDefault();
+    });
+    var numbers = document.getElementById('numbers');
+    for (var i = 0; i < coverflowCarousel.panels.length; i++) {
+        var link = document.createElement('a');
+        link.className = 'button';
+        link.textContent = 'O';
+        link.href = '#';
+        link.title = i + 1;
+        link.addEventListener('click', (function (i) { return function (event) {
+            coverflowCarousel.scrollTo(i);
+            event.preventDefault();
+        }})(i));
+        numbers.appendChild(link);
+        numbers.appendChild(document.createTextNode(' '));
+    }
+    </script>
+  </body>
+</html>
