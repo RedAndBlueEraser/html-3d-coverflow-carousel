@@ -66,10 +66,15 @@
         <a id="next" class="button" href="#" title="Next">&gt;</a>
         <a id="add" class="button" href="#" title="Add">+</a>
         <a id="remove" class="button" href="#" title="Remove">-</a>
+        <a id="play" class="button" href="#" title="Play">▷</a>
+        <a id="pause" class="button" href="#" title="Pause">||</a>
       </div>
     </div>
     <script>
-    var coverflowCarousel = new CoverflowCarousel(document.getElementById('carousel'));
+    var coverflowCarousel = new CoverflowCarousel(
+        document.getElementById('carousel'),
+        { startIndex: 1, arrowKeys: true, draggable: true, timeout: 2000 }
+        );
     coverflowCarousel.panelTemplate = document.createElement('div');
     coverflowCarousel.panelTemplate.className = 'panel';
     coverflowCarousel.panelTemplate.appendChild(document.createElement('img'));
@@ -136,6 +141,14 @@
         numbers.appendChild(link);
         numbers.appendChild(document.createTextNode(' '));
     }
+    document.getElementById('play').addEventListener('click', function (event) {
+        coverflowCarousel.setTimeout(2500);
+        event.preventDefault();
+    });
+    document.getElementById('pause').addEventListener('click', function (event) {
+        coverflowCarousel.clearTimeout();
+        event.preventDefault();
+    });
     </script>
   </body>
 </html>
