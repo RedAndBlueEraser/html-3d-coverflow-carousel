@@ -179,7 +179,7 @@ CoverflowCarousel.prototype.removePanel = function (indexOrPanel) {
 };
 
 (function () {
-    var ALPHA = 90, BETA = 1, GAMMA = 0.5, DELTA = 1, ZETA = 0.5,
+    var ALPHA = 90, BETA = 1, GAMMA = 1.3, DELTA = 1, ZETA = 0.5,
         PAPWF = [0],
         gPAPWF = function (i) {
             if (i >= PAPWF.length) {
@@ -200,14 +200,14 @@ CoverflowCarousel.prototype.removePanel = function (indexOrPanel) {
         for (var i = 0; i < panelsLength; i++) {
             var pStyle = this.panels[i].style;
             var relativePanelIndex = i - this.currentIndex;
-            var relativePanelIndex = (relativePanelIndex % panelsLength + panelsLength) % panelsLength;
+            relativePanelIndex = (relativePanelIndex % panelsLength + panelsLength) % panelsLength;
             if (relativePanelIndex > panelsLength / 2) {
                 relativePanelIndex -= panelsLength;
             }
             var rotateYInDeg = -ALPHA * relativePanelIndex / (Math.abs(relativePanelIndex) + BETA),
                 rotateYInRad = rotateYInDeg * Math.PI / 180;
             var translateX = GAMMA * panelWidth * Math.sign(relativePanelIndex) * getPanelsAccumulatedProjectedWidthFactor(relativePanelIndex);
-            var translateZ = -ZETA * panelWidth * Math.sign(rotateYInRad) * Math.sin(rotateYInRad);
+            var translateZ = -ZETA * panelWidth * Math.sign(rotateYInRad) * Math.sin(rotateYInRad) * Math.sqrt(Math.abs(relativePanelIndex));
 
             pStyle.msTransform = pStyle.webkitTransform = pStyle.MozTransform = pStyle.OTransform = pStyle.transform =
                 'translateX(' + translateX + 'px)' + 'translateZ(' + translateZ + 'px)' + 'rotateY(' + rotateYInDeg + 'deg)';
