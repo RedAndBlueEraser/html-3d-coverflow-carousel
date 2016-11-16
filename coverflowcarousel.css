@@ -40,3 +40,8 @@
     -o-transition: 1000ms;
     transition: 1000ms;
 }
+
+/* Set the cursor to pointer. */
+.coverflow-carousel.clickable > .panels-container > .panel {
+    cursor: pointer;
+}

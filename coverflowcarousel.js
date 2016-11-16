@@ -65,7 +65,11 @@ function CoverflowCarousel(element, options) {
     /* Add click listener to scroll the carousel. */
     if (options && options.clickable) {
         (function (cyclicCarousel) {
-            var indexOf = Array.prototype.indexOf;
+            var indexOf = Array.prototype.indexOf, className = cyclicCarousel.element.className;
+
+            if (!/(^|\s)clickable($|\s)/.test(className)) {
+                cyclicCarousel.element.className = className.trim() + ' clickable';
+            }
 
             cyclicCarousel.panelsContainer.addEventListener('click', function (event) {
                 var eventTarget = event.target, panels = cyclicCarousel.panels, panelIndex = -1;
