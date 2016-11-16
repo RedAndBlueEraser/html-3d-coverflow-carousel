@@ -1,7 +1,7 @@
 /**
  * @fileoverview Operates on HTML elements to display a 3D coverflow carousel.
  * @author Harry Wong (RedAndBlueEraser)
- * @version 20161110
+ * @version 20161116
  */
 
 'use strict';
@@ -62,9 +62,28 @@ function CoverflowCarousel(element, options) {
         })(this);
     }
 
-    /* Add mouse event listeners to scroll the carousel. */
+    /* Add click listener to scroll the carousel. */
     if (options && options.clickable) {
-        // TODO.
+        (function (cyclicCarousel) {
+            var indexOf = Array.prototype.indexOf;
+
+            cyclicCarousel.panelsContainer.addEventListener('click', function (event) {
+                var eventTarget = event.target, panels = cyclicCarousel.panels, panelIndex = -1;
+
+                /* Get the clicked on panel. */
+                while (eventTarget && eventTarget != cyclicCarousel.panelsContainer) {
+                    if ((panelIndex = indexOf.call(panels, eventTarget)) > -1) {
+                        break;
+                    }
+                    eventTarget = eventTarget.parentNode;
+                }
+
+                /* Scroll to clicked on panel. */
+                if (panelIndex > -1) {
+                    cyclicCarousel.scrollTo(panelIndex);
+                }
+            });
+        })(this);
     }
 
     /**
