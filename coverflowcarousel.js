@@ -64,18 +64,18 @@ function CoverflowCarousel(element, options) {
 
     /* Add click listener to scroll the carousel. */
     if (options && options.clickable) {
-        (function (cyclicCarousel) {
-            var indexOf = Array.prototype.indexOf, className = cyclicCarousel.element.className;
+        (function (coverflowCarousel) {
+            var indexOf = Array.prototype.indexOf, className = coverflowCarousel.element.className;
 
             if (!/(^|\s)clickable($|\s)/.test(className)) {
-                cyclicCarousel.element.className = className.trim() + ' clickable';
+                coverflowCarousel.element.className = className.trim() + ' clickable';
             }
 
-            cyclicCarousel.panelsContainer.addEventListener('click', function (event) {
-                var eventTarget = event.target, panels = cyclicCarousel.panels, panelIndex = -1;
+            coverflowCarousel.panelsContainer.addEventListener('click', function (event) {
+                var eventTarget = event.target, panels = coverflowCarousel.panels, panelIndex = -1;
 
                 /* Get the clicked on panel. */
-                while (eventTarget && eventTarget != cyclicCarousel.panelsContainer) {
+                while (eventTarget && eventTarget != coverflowCarousel.panelsContainer) {
                     if ((panelIndex = indexOf.call(panels, eventTarget)) > -1) {
                         break;
                     }
@@ -84,7 +84,8 @@ function CoverflowCarousel(element, options) {
 
                 /* Scroll to clicked on panel. */
                 if (panelIndex > -1) {
-                    cyclicCarousel.scrollTo(panelIndex);
+                    coverflowCarousel.scrollTo(panelIndex);
+                }
             });
         })(this);
     }
