@@ -85,7 +85,22 @@ function CoverflowCarousel(element, options) {
                 /* Scroll to clicked on panel. */
                 if (panelIndex > -1) {
                     cyclicCarousel.scrollTo(panelIndex);
+            });
+        })(this);
+    }
+
+    /* Add wheel listener to scroll the carousel. */
+    if (options && options.wheelable) {
+        (function (coverflowCarousel) {
+            coverflowCarousel.element.addEventListener('wheel', function (event) {
+                if (event.wheelDelta > 0) {
+                    /* Mouse wheel up. */
+                    coverflowCarousel.scrollToPrevious();
+                } else if (event.wheelDelta < 0) {
+                    /* Mouse wheel down. */
+                    coverflowCarousel.scrollToNext();
                 }
+                event.preventDefault();
             });
         })(this);
     }
