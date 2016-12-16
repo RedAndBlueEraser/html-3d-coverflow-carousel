@@ -14,6 +14,7 @@
  * @param {number} [options.startIndex=0] The index of the first panel displayed.
  * @param {boolean} [options.arrowKeys=false] Whether keyboard arrow keys can scroll the carousel.
  * @param {boolean} [options.clickable=false] Whether mouse clicks can scroll the carousel.
+ * @param {boolean} [options.wheelable=false] Whether mouse wheel scrolls can scroll the carousel.
  * @param {number} [options.timeout=0] The time interval, in milliseconds, to automatically scroll the carousel.
  */
 function CoverflowCarousel(element, options) {
