@@ -1,7 +1,7 @@
 /**
  * @fileoverview Operates on HTML elements to display a 3D coverflow carousel.
  * @author Harry Wong (RedAndBlueEraser)
- * @version 20161116
+ * @version 20161216
  */
 
 'use strict';
@@ -195,7 +195,7 @@ CoverflowCarousel.prototype.removePanel = function (indexOrPanel) {
 };
 
 (function () {
-    var ALPHA = 90, BETA = 1, GAMMA = 1.3, DELTA = 1, ZETA = 0.5,
+    var ALPHA = 90, BETA = 1, GAMMA = 4 / 3, DELTA = 1, ZETA = 0.5,
         PAPWF = [0],
         gPAPWF = function (i) {
             if (i >= PAPWF.length) {
