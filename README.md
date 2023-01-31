@@ -265,4 +265,4 @@ You may even rewrite the entire function to change translateX, translateZ and ro
 
 ## Author
 
-Harry Wong (RedAndBlueEraser) <RedAndBlueEraser@outlook.com>
+RedAndBlueEraser
